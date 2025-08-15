@@ -1,0 +1,23 @@
+name: Version Change Notifier
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'pubspec.yaml'
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Extract version
+        id: v
+        run: |
+          VERSION=$(grep '^version:' pubspec.yaml | cut -d ' ' -f2)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+      - name: Post summary
+        run: |
+          echo "## Version updated to ${{ steps.v.outputs.version }}" >> $GITHUB_STEP_SUMMARY

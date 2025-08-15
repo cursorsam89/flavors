@@ -27,11 +27,22 @@ migrate_working_dir/
 **/doc/api/
 **/ios/Flutter/.last_build_id
 .dart_tool/
+.packages
+.pub/
+build/
 .flutter-plugins
 .flutter-plugins-dependencies
-.pub-cache/
-.pub/
-/build/
+.melos_tool/
+coverage/
+android/local.properties
+**/*.iml
+.idea/
+.vscode/
+lib/l10n/app_localizations.dart
+untranslated_messages.txt
+firebase_app_id_file.json
+**/GoogleService-Info.plist
+**/google-services.json
 
 # Symbolication related
 app.*.symbols

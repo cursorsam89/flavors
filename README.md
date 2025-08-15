@@ -1,16 +1,15 @@
 # flavors
 
-A new Flutter project.
+A flavored Flutter app with Student (Kids App) and Teacher (Tutor App) variants, localization, basic onboarding/login, orientation handling (Soroban in landscape), and CI workflows.
 
-## Getting Started
+## Run
 
-This project is a starting point for a Flutter application.
+- Student: `flutter run --flavor student -t lib/main_student.dart`
+- Teacher: `flutter run --flavor teacher -t lib/main_teacher.dart`
 
-A few resources to get you started if this is your first Flutter project:
+## Build
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Android APK: `flutter build apk --flavor student -t lib/main_student.dart`
+- Android AAB: `flutter build appbundle --flavor teacher -t lib/main_teacher.dart`
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+CI workflows are in `.github/workflows/`.

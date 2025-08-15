@@ -1,0 +1,17 @@
+{
+	"appTitleKids": "儿童应用",
+	"appTitleTutor": "教师应用",
+	"welcomeUser": "欢迎 {username}",
+	"splashLoading": "加载中...",
+	"onboardingTitle": "欢迎",
+	"onboardingSubtitle": "让我们开始吧",
+	"loginWithGoogle": "使用 Google 继续",
+	"loginWithApple": "使用 Apple 继续",
+	"tabHome": "首页",
+	"tabMore": "更多",
+	"soroban": "算盘",
+	"comingSoon": "即将推出",
+	"profile": "个人资料",
+	"theme": "主题",
+	"signOut": "退出登录"
+}

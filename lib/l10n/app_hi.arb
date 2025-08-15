@@ -1,0 +1,17 @@
+{
+	"appTitleKids": "बच्चों का ऐप",
+	"appTitleTutor": "ट्यूटर ऐप",
+	"welcomeUser": "स्वागत है {username}",
+	"splashLoading": "लोड हो रहा है...",
+	"onboardingTitle": "स्वागत",
+	"onboardingSubtitle": "चलिये शुरू करें",
+	"loginWithGoogle": "Google से जारी रखें",
+	"loginWithApple": "Apple से जारी रखें",
+	"tabHome": "होम",
+	"tabMore": "अधिक",
+	"soroban": "सोरबन",
+	"comingSoon": "जल्द आ रहा है",
+	"profile": "प्रोफ़ाइल",
+	"theme": "थीम",
+	"signOut": "साइन आउट"
+}
