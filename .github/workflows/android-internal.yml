@@ -1,0 +1,25 @@
+name: Android Internal
+
+on:
+  workflow_dispatch:
+    inputs:
+      flavor:
+        description: 'Flavor'
+        required: true
+        type: choice
+        options: [student, teacher]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'stable'
+      - run: flutter pub get
+      - run: flutter build appbundle --flavor ${{ inputs.flavor }} -t lib/main_${{ inputs.flavor }}.dart --release
+      - uses: actions/upload-artifact@v4
+        with:
+          name: android-internal-${{ inputs.flavor }}
+          path: build/app/outputs/bundle/release/*.aab

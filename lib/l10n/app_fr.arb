@@ -1,0 +1,17 @@
+{
+	"appTitleKids": "Application Enfants",
+	"appTitleTutor": "Application Tuteur",
+	"welcomeUser": "Bienvenue {username}",
+	"splashLoading": "Chargement...",
+	"onboardingTitle": "Bienvenue",
+	"onboardingSubtitle": "Commençons",
+	"loginWithGoogle": "Continuer avec Google",
+	"loginWithApple": "Continuer avec Apple",
+	"tabHome": "Accueil",
+	"tabMore": "Plus",
+	"soroban": "Soroban",
+	"comingSoon": "Bientôt disponible",
+	"profile": "Profil",
+	"theme": "Thème",
+	"signOut": "Déconnexion"
+}

@@ -1,0 +1,21 @@
+name: Feature request
+description: Suggest an idea
+labels: [enhancement]
+body:
+  - type: dropdown
+    id: persona
+    attributes:
+      label: Persona
+      options:
+        - Student (Kids App)
+        - Teacher (Tutor App)
+        - Technical/Cross-Persona
+  - type: textarea
+    id: story
+    attributes:
+      label: User Story
+      description: As a <persona>, I want <goal>, so that <benefit>.
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance Criteria

@@ -1,0 +1,28 @@
+name: iOS TestFlight Placeholder
+
+on:
+  workflow_dispatch:
+    inputs:
+      flavor:
+        description: 'Flavor to build'
+        required: true
+        type: choice
+        options:
+          - student
+          - teacher
+
+jobs:
+  build-ios:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'stable'
+      - run: flutter pub get
+      - name: Build IPA
+        run: flutter build ipa --flavor ${{ inputs.flavor }} -t lib/main_${{ inputs.flavor }}.dart --release --no-codesign
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ios-${{ inputs.flavor }}-release
+          path: build/ios/**/*.ipa

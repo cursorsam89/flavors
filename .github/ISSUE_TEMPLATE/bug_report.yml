@@ -1,0 +1,28 @@
+name: Bug report
+description: File a bug report
+labels: [bug]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: App version
+      description: From pubspec.yaml `version:`
+  - type: dropdown
+    id: flavor
+    attributes:
+      label: Flavor
+      options:
+        - student
+        - teacher
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior

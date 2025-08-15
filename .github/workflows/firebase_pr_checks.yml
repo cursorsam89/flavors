@@ -1,0 +1,15 @@
+name: Firebase Compliance Checks
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  check-manifest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Ensure no location permission
+        run: |
+          ! grep -R "android.permission.ACCESS_FINE_LOCATION" -n android/ || (echo "Location permission found" && exit 1)
+          ! grep -R "com.google.android.gms.permission.AD_ID" -n android/ || (echo "Ad ID permission found" && exit 1)

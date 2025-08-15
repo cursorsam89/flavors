@@ -1,0 +1,82 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'pubspec.yaml'
+      - 'lib/**'
+      - 'android/**'
+      - 'ios/**'
+      - '.github/workflows/**'
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  analyze-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'stable'
+      - run: flutter --version
+      - run: flutter pub get
+      - run: flutter analyze
+      - run: flutter test --no-pub
+
+  build-android:
+    if: github.event_name == 'push'
+    needs: analyze-test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        flavor: [student, teacher]
+        mode: [debug, profile, release]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'stable'
+      - run: flutter pub get
+      - name: Build APK
+        run: |
+          if [ "${{ matrix.mode }}" = "release" ]; then
+            flutter build apk --flavor ${{ matrix.flavor }} -t lib/main_${{ matrix.flavor }}.dart --dart-define=FLAVOR=${{ matrix.flavor }} --release
+          elif [ "${{ matrix.mode }}" = "profile" ]; then
+            flutter build apk --flavor ${{ matrix.flavor }} -t lib/main_${{ matrix.flavor }}.dart --dart-define=FLAVOR=${{ matrix.flavor }} --profile
+          else
+            flutter build apk --flavor ${{ matrix.flavor }} -t lib/main_${{ matrix.flavor }}.dart --dart-define=FLAVOR=${{ matrix.flavor }} --debug
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: android-${{ matrix.flavor }}-${{ matrix.mode }}
+          path: build/app/outputs/flutter-apk/*.apk
+
+  build-ios:
+    if: github.event_name == 'push'
+    needs: analyze-test
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        flavor: [student, teacher]
+        mode: [debug, profile, release]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'stable'
+      - run: flutter pub get
+      - name: Build IPA (simulator/archive)
+        run: |
+          if [ "${{ matrix.mode }}" = "release" ]; then
+            flutter build ipa --flavor ${{ matrix.flavor }} -t lib/main_${{ matrix.flavor }}.dart --dart-define=FLAVOR=${{ matrix.flavor }} --release --no-codesign
+          elif [ "${{ matrix.mode }}" = "profile" ]; then
+            flutter build ipa --flavor ${{ matrix.flavor }} -t lib/main_${{ matrix.flavor }}.dart --dart-define=FLAVOR=${{ matrix.flavor }} --profile --no-codesign
+          else
+            flutter build ios --flavor ${{ matrix.flavor }} -t lib/main_${{ matrix.flavor }}.dart --dart-define=FLAVOR=${{ matrix.flavor }} --debug --no-codesign
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ios-${{ matrix.flavor }}-${{ matrix.mode }}
+          path: build/ios/**/*.ipa

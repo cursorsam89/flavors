@@ -1,0 +1,51 @@
+name: Release Build
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'pubspec.yaml'
+
+jobs:
+  detect-version-change:
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.check.outputs.changed }}
+      version: ${{ steps.check.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: check
+        run: |
+          set -e
+          VERSION=$(grep '^version:' pubspec.yaml | cut -d ' ' -f2)
+          echo "Detected version: $VERSION"
+          PREV=$(git show HEAD~1:pubspec.yaml | grep '^version:' | cut -d ' ' -f2 || echo "")
+          echo "Previous version: $PREV"
+          if [ "$VERSION" != "$PREV" ]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "version=$VERSION" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+  build:
+    needs: detect-version-change
+    if: needs.detect-version-change.outputs.changed == 'true'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        flavor: [student, teacher]
+        mode: [release]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'stable'
+      - run: flutter pub get
+      - name: Build Android AAB
+        run: flutter build appbundle --flavor ${{ matrix.flavor }} -t lib/main_${{ matrix.flavor }}.dart --release
+      - uses: actions/upload-artifact@v4
+        with:
+          name: android-aab-${{ matrix.flavor }}-${{ needs.detect-version-change.outputs.version }}
+          path: build/app/outputs/bundle/release/*.aab
